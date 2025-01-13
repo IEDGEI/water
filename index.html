@@ -102,9 +102,9 @@
 </head>
 <body>
   <nav>
-    <a href="index.html">첫 번째 페이지</a>
-    <a href="second.html">두 번째 페이지</a>
-  </nav>
+  <a href="https://watering.netlify.app">신규 매수</a>
+  <a href="https://watering2.netlify.app">목표평단가</a>
+</nav>
 
   <h1>물타기 계산기</h1>
 
@@ -127,6 +127,7 @@
     <input type="number" id="priceE" placeholder="단가 입력"><br>
     <p>주문 가능 수량: <span id="resultF">0</span></p>
     <p>주문 금액: <span id="resultD">0</span></p>
+    <p id="errorMessage" style="color: red; display: none;">매수 단가가 매수 가능 금액보다 클 수 없습니다.</p>
   </div>
 
   <div id="resultSummary">
@@ -145,14 +146,23 @@
       const c = a * b;
       const f = Math.floor(d / e);
 
+      // 매수 단가가 매수 가능 금액보다 큰 경우
+      if (e > d) {
+        document.getElementById('errorMessage').style.display = 'block';
+        document.getElementById('resultD').textContent = "불가";
+        document.getElementById('resultF').textContent = "불가";
+      } else {
+        document.getElementById('errorMessage').style.display = 'none';
+        document.getElementById('resultD').textContent = `${e * f || 0}원`;
+        document.getElementById('resultF').textContent = `${f || 0}개`;
+      }
+
       const averagePrice = ((a * b) + (e * f)) / (b + f);
       const finalValue = (a * b) + (e * f);
 
       document.getElementById('resultA').textContent = `${a || 0}원`;
       document.getElementById('resultB').textContent = `${b || 0}개`;
       document.getElementById('resultC').textContent = `${c || 0}원`;
-      document.getElementById('resultD').textContent = `${d || 0}원`;
-      document.getElementById('resultF').textContent = `${f || 0}개`;
       document.getElementById('resultAverage').textContent = `${averagePrice ? averagePrice.toFixed(2) : 0}원`;
       document.getElementById('resultFinalValue').textContent = `${finalValue || 0}원`;
     }
